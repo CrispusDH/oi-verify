@@ -8,8 +8,8 @@
   },
   "author": "Oleksii Ihnatiuk <qacrispus@gmail.com> (https://github.com/CrispusDH)",
   "license": "MIT",
-  "main": "dist/declarations/src/index.js",
-  "typings": "dist/declarations/src/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/declarations/index.d.ts",
   "engines": {
     "node": ">=6.0.0"
   },
