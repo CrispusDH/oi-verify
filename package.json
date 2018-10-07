@@ -1,5 +1,5 @@
 {
-  "name": "verify",
+  "name": "oi-verify",
   "version": "0.1.0",
   "description": "Smart verifier for protractor based projects, that wait for a predicate to become true",
   "repository": {
@@ -20,7 +20,7 @@
     "typescript": "3.1.1"
   },
   "scripts": {
-    "prepublishOnly": "npm run clean && lint && ts",
+    "prepublishOnly": "npm run clean && npm run lint && tsc",
     "clean": "rm -rf dist",
     "lint": "tslint 'src/**/*.ts'"
   },
