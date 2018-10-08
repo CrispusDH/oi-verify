@@ -1,4 +1,4 @@
-## Verify library for Protractor based projects
+## Verify library for UI WEB based projects
 ### The purpose
 Ability to check some predicates in case when changes take place with Element(s) that has been already on page and changes depends on some time cost-based oparation (e.g. API call).
 #### Example:
