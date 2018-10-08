@@ -1,15 +1,15 @@
-// tslint:disable ban-types
-import { Condition, WebDriver } from 'selenium-webdriver';
-import { browser } from 'protractor';
+import { wait } from './wait';
 
 export async function waitFor(
-  predicate: Function | Condition<{}> | Promise<{}> | ((driver: WebDriver) => {}),
+  predicate: Function | Promise<any>,
   message: string,
-  timeout: number = 10 * 1000
+  timeout: number = 10 * 1000,
+  pollTimeout: number = 200
 ): Promise<void> {
-  await browser.wait(
+  await wait(
     predicate,
     timeout,
-    message
+    message,
+    pollTimeout
   );
 }

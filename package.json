@@ -1,7 +1,7 @@
 {
   "name": "oi-verify",
   "version": "0.1.2",
-  "description": "Smart verifier for protractor based projects, that wait for a predicate to become true",
+  "description": "Smart verifier for UI based projects, that wait for a predicate to become true",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CrispusDH/verify.git"
@@ -14,7 +14,6 @@
     "node": ">=6.0.0"
   },
   "devDependencies": {
-    "protractor": "5.4.1",
     "tslint": "5.11.0",
     "tslint-eslint-rules": "5.4.0",
     "typescript": "3.1.1"
