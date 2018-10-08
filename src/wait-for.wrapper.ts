@@ -1,7 +1,8 @@
 import { wait } from './wait';
+import { Supplier } from './overload-helpers';
 
 export async function waitFor(
-  predicate: Function | Promise<any>,
+  predicate: () => boolean | Supplier<boolean>,
   message: string,
   timeout: number = 10 * 1000,
   pollTimeout: number = 200
