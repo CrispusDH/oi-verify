@@ -2,7 +2,7 @@ import { wait } from './wait';
 
 export async function waitFor(
   predicate: () => (boolean | Promise<boolean>),
-  message: string,
+  message: string = '',
   timeout: number = 10 * 1000,
   pollTimeout: number = 200
 ): Promise<void> {
