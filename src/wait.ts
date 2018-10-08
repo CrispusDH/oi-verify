@@ -1,7 +1,5 @@
-import { Supplier } from './overload-helpers';
-
 export function wait(
-  predicate: () => boolean | Supplier<boolean>,
+  predicate: () => (boolean | Promise<boolean>),
   timeout: number = 0,
   message: string = '',
   pollTimeout: number = 0): Promise<any> {
