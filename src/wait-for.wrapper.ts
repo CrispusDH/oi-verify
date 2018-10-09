@@ -1,4 +1,4 @@
-import { wait } from './wait';
+import { wait } from './wait'
 
 export async function waitFor(
   predicate: () => (boolean | Promise<boolean>),
