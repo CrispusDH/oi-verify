@@ -2,9 +2,9 @@ version: 2
 jobs:
   build:
     docker:
-    - image: circleci/node:8.12.0
+    - image: circleci/node:10.14.1
 
-    working_directory: ~/verify
+    working_directory: ~/oi-verify
 
     steps:
     - checkout
