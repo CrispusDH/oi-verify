@@ -16,7 +16,7 @@
   "devDependencies": {
     "tslint": "5.11.0",
     "tslint-eslint-rules": "5.4.0",
-    "typescript": "3.1.1"
+    "typescript": "3.2.2"
   },
   "scripts": {
     "prepublishOnly": "npm run clean && npm run lint && tsc",
