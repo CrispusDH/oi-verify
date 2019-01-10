@@ -1,4 +1,4 @@
-import { BooleanSupplier, NumberSupplier, StringSupplier, Supplier } from './overload-helpers';
+import { BooleanSupplier, NumberSupplier, stringOverload, StringSupplier, Supplier } from './overload-helpers';
 import { Predicates } from './predicates';
 import { waitFor } from './wait-for.wrapper';
 
@@ -34,9 +34,11 @@ export class Verify {
     getFirst: StringSupplier,
     getSecond: StringSupplier
   ): Promise<void> {
+    const first = await stringOverload(getFirst);
+    const second = await stringOverload(getSecond);
     await waitFor(
-      Predicates.areEqualStrings(getFirst, getSecond),
-      'Given strings are not equal',
+      Predicates.areEqualStrings(first, second),
+      `String "${first}" does not equal "${second}"`,
     );
   }
 
