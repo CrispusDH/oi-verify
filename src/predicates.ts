@@ -39,12 +39,10 @@ export class Predicates {
   }
 
   public static areEqualStrings(
-    getFirst: StringSupplier,
-    getSecond: StringSupplier
+    first: string,
+    second: string
   ): Supplier<boolean> {
     return async () => {
-      const first = await stringOverload(getFirst);
-      const second = await stringOverload(getSecond);
       return first === second;
     };
   }
