@@ -36,7 +36,7 @@ export class Verify {
   ): Promise<void> {
     await waitFor(
       Predicates.areEqualStrings(getFirst, getSecond),
-      `Sting ${await getFirst} are not equal ${await getSecond}`,
+      'Given strings are not equal',
     );
   }
 
