@@ -32,11 +32,13 @@ export class Verify {
 
   public static async stringsAreEqual(
     getFirst: StringSupplier,
-    getSecond: StringSupplier
+    getSecond: StringSupplier,
+    timeout: number = 10 * 1000
   ): Promise<void> {
     await waitFor(
       Predicates.areEqualStrings(getFirst, getSecond),
       'Given strings are not equal',
+      timeout
     );
   }
 
