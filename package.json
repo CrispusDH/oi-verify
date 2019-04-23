@@ -30,6 +30,7 @@
   "keywords": [
     "protractor",
     "wait",
-    "verify"
+    "verify",
+    "webdriverio"
   ]
 }
