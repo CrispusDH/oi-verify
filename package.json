@@ -1,6 +1,6 @@
 {
   "name": "oi-verify",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Smart verifier for UI based projects, that wait for a predicate to become true",
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   "keywords": [
     "protractor",
     "wait",
-    "verify"
+    "verify",
+    "webdriverio"
   ]
 }
