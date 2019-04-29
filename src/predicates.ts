@@ -34,7 +34,10 @@ export class Predicates {
     return async () => {
       const first = await numberOverload(getFirst);
       const second = await numberOverload(getSecond);
-      return first === second;
+      if (first === second) {
+        return true;
+      }
+      throw new Error(`First number ${first} is not equal second ${second}`);
     };
   }
 

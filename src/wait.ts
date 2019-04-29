@@ -23,7 +23,8 @@ export function wait(
   return new Promise(async (resolve, reject) => {
     const startTime = Date.now();
     const pollCondition = async () => {
-      evaluateCondition().then((value) => {
+      try {
+        const value = await evaluateCondition();
         const elapsed = Date.now() - startTime;
         if (!!value) {
           resolve(value);
@@ -35,7 +36,17 @@ export function wait(
         } else {
           setTimeout(pollCondition, pollTimeout);
         }
-      }, reject);
+      } catch (error) {
+        const elapsed = Date.now() - startTime;
+        if (timeout && elapsed >= timeout) {
+          reject(
+            new Error(
+              `${error}.\n`
+              + `Wait timed out after ${elapsed}ms`));
+        } else {
+          setTimeout(pollCondition, pollTimeout);
+        }
+      }
     };
     await pollCondition();
   });

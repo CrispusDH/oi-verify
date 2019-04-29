@@ -38,7 +38,7 @@ export class Verify {
   ): Promise<void> {
     await waitFor(
       Predicates.areEqualNumbers(getFirst, getSecond),
-      'Given numbers are not equal',
+      undefined,
       timeout,
       pollTimeout
     );

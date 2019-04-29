@@ -16,12 +16,24 @@
   "devDependencies": {
     "tslint": "5.16.0",
     "tslint-eslint-rules": "5.4.0",
-    "typescript": "3.4.5"
+    "typescript": "3.4.5",
+    "ava": "2.0.0-beta.1"
   },
   "scripts": {
     "prepublishOnly": "npm run clean && npm run lint && tsc",
     "clean": "rm -rf dist",
-    "lint": "tslint 'src/**/*.ts'"
+    "lint": "tslint 'src/**/*.ts' 'test/**/*.ts'",
+    "tsc": "tsc",
+    "pretest": "npm run clean && tsc",
+    "test": "ava",
+    "posttest": "npm run clean"
+  },
+  "ava": {
+    "files": [
+      "dist/test/**/*.js"
+    ],
+    "failWithoutAssertions": false,
+    "verbose": true
   },
   "bugs": {
     "url": "https://github.com/CrispusDH/verify/issues"
