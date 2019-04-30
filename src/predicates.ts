@@ -40,7 +40,7 @@ export class Predicates {
       if (first === second) {
         return true;
       }
-      throw new Error(`Numbers are not equal.\nFirst:  "${first}"\nSecond: "${second}"`);
+      throw new Error(`Numbers are not equal.\nFirst:  ${first}\nSecond: ${second}`);
     };
   }
 
