@@ -16,7 +16,10 @@ export class Predicates {
     return async () => {
       const text = await stringOverload(getText);
       const substring = await stringOverload(getSubString);
-      return text.includes(substring);
+      if (text.includes(substring)) {
+        return true;
+      }
+      throw new Error(`Text does not contain substring.\nText:      "${text}"\nSubstring: "${substring}"`);
     };
   }
 
@@ -37,7 +40,7 @@ export class Predicates {
       if (first === second) {
         return true;
       }
-      throw new Error(`First number ${first} is not equal second ${second}`);
+      throw new Error(`Numbers are not equal.\nFirst:  "${first}"\nSecond: "${second}"`);
     };
   }
 
@@ -48,7 +51,10 @@ export class Predicates {
     return async () => {
       const first = await stringOverload(getFirst);
       const second = await stringOverload(getSecond);
-      return first === second;
+      if (first === second) {
+        return true;
+      }
+      throw new Error(`Strings are not equal.\nFirst:  "${first}"\nSecond: "${second}"`);
     };
   }
 

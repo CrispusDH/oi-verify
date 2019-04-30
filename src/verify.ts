@@ -24,7 +24,7 @@ export class Verify {
   ): Promise<void> {
     await waitFor(
       Predicates.isTextContain(getText, getSubString),
-      'Given text does not contain substring',
+      undefined,
       timeout,
       pollTimeout
     );
@@ -52,7 +52,7 @@ export class Verify {
   ): Promise<void> {
     await waitFor(
       Predicates.areEqualStrings(getFirst, getSecond),
-      'Given strings are not equal',
+      undefined,
       timeout,
       pollTimeout
     );
