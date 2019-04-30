@@ -66,7 +66,7 @@ export class Verify {
   ): Promise<void> {
     await waitFor(
       Predicates.areNotEqualStrings(getFirst, getSecond),
-      'Given strings are equal',
+      undefined,
       timeout,
       pollTimeout
     );

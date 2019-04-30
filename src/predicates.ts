@@ -65,7 +65,10 @@ export class Predicates {
     return async () => {
       const first = await stringOverload(getFirst);
       const second = await stringOverload(getSecond);
-      return first !== second;
+      if (first !== second) {
+        return true;
+      }
+      throw new Error(`Strings are equal.\nFirst:  "${first}"\nSecond: "${second}"`);
     };
   }
 
