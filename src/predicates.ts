@@ -105,7 +105,7 @@ export class Predicates {
 
   public static isTruthy(getBoolean: BooleanSupplier): Supplier<boolean> {
     return async () => {
-      return await booleanOverload(getBoolean);
+      return booleanOverload(getBoolean);
     };
   }
 
