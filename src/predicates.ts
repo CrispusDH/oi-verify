@@ -23,10 +23,17 @@ export class Predicates {
     };
   }
 
-  public static isTextNotContain(getText: Supplier<string>, substring: string): Supplier<boolean> {
+  public static isTextNotContain(
+    getText: StringSupplier,
+    getSubstring: StringSupplier
+  ): Supplier<boolean> {
     return async () => {
-      const text = await getText();
-      return !text.includes(substring);
+      const text = await stringOverload(getText);
+      const substring = await stringOverload(getSubstring);
+      if (!text.includes(substring)) {
+        return true;
+      }
+      throw new Error(`Text contains substring.\nText:      "${text}"\nSubstring: "${substring}"`);
     };
   }
 

@@ -73,14 +73,14 @@ export class Verify {
   }
 
   public static async textNotContains(
-    getText: Supplier<string>,
-    substring: string,
+    getText: StringSupplier,
+    getSubstring: StringSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isTextNotContain(getText, substring),
-      `Given text does not contain "${substring}"`,
+      Predicates.isTextNotContain(getText, getSubstring),
+      undefined,
       timeout,
       pollTimeout
     );
