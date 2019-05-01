@@ -101,7 +101,7 @@ export class Verify {
   ): Promise<void> {
     await waitFor(
       Predicates.areEqualObjects(first, second),
-      'Objects are not equal',
+      undefined,
       timeout,
       pollTimeout
     );

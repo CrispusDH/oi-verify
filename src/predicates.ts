@@ -92,14 +92,18 @@ export class Predicates {
       const secondProps = Object.getOwnPropertyNames(second);
 
       if (firstProps.length !== secondProps.length) {
-        return false;
+        throw new Error(
+          `Objects are not equal.\nFirst:  ${JSON.stringify(first)}\nSecond: ${JSON.stringify(second)}`
+        );
       }
 
       for (const i of firstProps) {
         const propName = firstProps[i];
 
         if (first[propName] !== second[propName]) {
-          return false;
+          throw new Error(
+            `Objects are not equal.\nFirst:  ${JSON.stringify(first)}\nSecond: ${JSON.stringify(second)}`
+          );
         }
       }
 
