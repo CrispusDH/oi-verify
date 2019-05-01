@@ -1,15 +1,22 @@
-import { BooleanSupplier, NumberSupplier, StringSupplier, Supplier } from './overload-helpers';
+import {
+  ArraySupplier,
+  BooleanSupplier,
+  NumberSupplier,
+  ObjectSupplier,
+  StringSupplier,
+  Supplier
+} from './overload-helpers';
 import { Predicates } from './predicates';
 import { waitFor } from './wait-for.wrapper';
 
 export class Verify {
   public static async toBeTruthy(
-    getBoolean: BooleanSupplier,
+    expression: BooleanSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isTruthy(getBoolean),
+      Predicates.isTruthy(expression),
       'Given condition produced negative result',
       timeout,
       pollTimeout
@@ -17,13 +24,13 @@ export class Verify {
   }
 
   public static async textContains(
-    getText: StringSupplier,
-    getSubString: StringSupplier,
+    text: StringSupplier,
+    substring: StringSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isTextContain(getText, getSubString),
+      Predicates.isTextContain(text, substring),
       undefined,
       timeout,
       pollTimeout
@@ -31,13 +38,13 @@ export class Verify {
   }
 
   public static async numbersAreEqual(
-    getFirst: NumberSupplier,
-    getSecond: NumberSupplier,
+    first: NumberSupplier,
+    second: NumberSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualNumbers(getFirst, getSecond),
+      Predicates.areEqualNumbers(first, second),
       undefined,
       timeout,
       pollTimeout
@@ -45,13 +52,13 @@ export class Verify {
   }
 
   public static async stringsAreEqual(
-    getFirst: StringSupplier,
-    getSecond: StringSupplier,
+    first: StringSupplier,
+    second: StringSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualStrings(getFirst, getSecond),
+      Predicates.areEqualStrings(first, second),
       undefined,
       timeout,
       pollTimeout
@@ -59,13 +66,13 @@ export class Verify {
   }
 
   public static async stringsAreNotEqual(
-    getFirst: StringSupplier,
-    getSecond: StringSupplier,
+    first: StringSupplier,
+    second: StringSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areNotEqualStrings(getFirst, getSecond),
+      Predicates.areNotEqualStrings(first, second),
       undefined,
       timeout,
       pollTimeout
@@ -73,13 +80,13 @@ export class Verify {
   }
 
   public static async textNotContains(
-    getText: StringSupplier,
-    getSubstring: StringSupplier,
+    text: StringSupplier,
+    substring: StringSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isTextNotContain(getText, getSubstring),
+      Predicates.isTextNotContain(text, substring),
       undefined,
       timeout,
       pollTimeout
@@ -87,13 +94,13 @@ export class Verify {
   }
 
   public static async objectsAreEqual(
-    getObject: Supplier<object>,
-    object: object,
+    first: ObjectSupplier,
+    second: ObjectSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualObjects(getObject, object),
+      Predicates.areEqualObjects(first, second),
       'Objects are not equal',
       timeout,
       pollTimeout
@@ -101,69 +108,69 @@ export class Verify {
   }
 
   public static async greaterThan(
-    getNumber: Supplier<number>,
-    secondNumber: number,
+    bigger: NumberSupplier,
+    smaller: NumberSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isGreaterThan(getNumber, secondNumber),
-      `${await getNumber()} is not greater than ${secondNumber}`,
+      Predicates.isGreaterThan(bigger, smaller),
+      undefined,
       timeout,
       pollTimeout
     );
   }
 
   public static async lessThan(
-    getNumber: Supplier<number>,
-    secondNumber: number,
+    smaller: NumberSupplier,
+    bigger: NumberSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isLessThan(getNumber, secondNumber),
-      `${await getNumber()} is not greater than ${secondNumber}`,
+      Predicates.isLessThan(smaller, bigger),
+      undefined,
       timeout,
       pollTimeout
     );
   }
 
   public static async valueIsNotDefined<T>(
-    getValue: Supplier<T>,
+    value: Supplier<T>,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isValueNotDefined(getValue),
-      `Verify.valueIsNotDefined: ${await getValue()} is defined`,
+      Predicates.isValueNotDefined(value),
+      undefined,
       timeout,
       pollTimeout
     );
   }
 
-  public static async arrayIncludesSubArray(
-    getSourceArray: Supplier<Array<string>>,
-    subArray: Array<string>,
+  public static async arrayIncludesSubArray<T>(
+    array: ArraySupplier<T>,
+    subArray: ArraySupplier<T>,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isArrayIncludesSubArray(getSourceArray, subArray),
-      'Source array does not include sub array',
+      Predicates.isArrayIncludesSubArray(array, subArray),
+      undefined,
       timeout,
       pollTimeout
     );
   }
 
-  public static async arrayDoesNotIncludeSubArray(
-    getSourceArray: Supplier<Array<string>>,
-    subArray: Array<string>,
+  public static async arrayDoesNotIncludeSubArray<T>(
+    array: ArraySupplier<T>,
+    subArray: ArraySupplier<T>,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isArrayNotIncludesSubArray(getSourceArray, subArray),
-      'Source array includes sub array. But should not!',
+      Predicates.isArrayNotIncludesSubArray(array, subArray),
+      undefined,
       timeout,
       pollTimeout
     );

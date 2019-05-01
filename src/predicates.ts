@@ -1,8 +1,10 @@
 import {
+  arrayOverload,
+  ArraySupplier,
   booleanOverload,
   BooleanSupplier,
   numberOverload,
-  NumberSupplier,
+  NumberSupplier, objectOverload, ObjectSupplier,
   stringOverload,
   StringSupplier,
   Supplier
@@ -79,11 +81,15 @@ export class Predicates {
     };
   }
 
-  public static areEqualObjects(getObject: Supplier<object>, object: object): Supplier<boolean> {
+  public static areEqualObjects(
+    getFirst: ObjectSupplier,
+    getSecond: ObjectSupplier
+  ): Supplier<boolean> {
     return async () => {
-      const firstObject = await getObject();
-      const firstProps = Object.getOwnPropertyNames(firstObject);
-      const secondProps = Object.getOwnPropertyNames(object);
+      const first = await objectOverload(getFirst);
+      const second = await objectOverload(getSecond);
+      const firstProps = Object.getOwnPropertyNames(first);
+      const secondProps = Object.getOwnPropertyNames(second);
 
       if (firstProps.length !== secondProps.length) {
         return false;
@@ -92,7 +98,7 @@ export class Predicates {
       for (const i of firstProps) {
         const propName = firstProps[i];
 
-        if (firstObject[propName] !== object[propName]) {
+        if (first[propName] !== second[propName]) {
           return false;
         }
       }
@@ -101,17 +107,25 @@ export class Predicates {
     };
   }
 
-  public static isGreaterThan(getNumber: Supplier<number>, secondNumber: number): Supplier<boolean> {
+  public static isGreaterThan(
+    getBigger: NumberSupplier,
+    getSmaller: NumberSupplier
+  ): Supplier<boolean> {
     return async () => {
-      const firstNumber = await getNumber();
-      return firstNumber > secondNumber;
+      const bigger = await numberOverload(getBigger);
+      const smaller = await numberOverload(getSmaller);
+      return bigger > smaller;
     };
   }
 
-  public static isLessThan(getNumber: Supplier<number>, secondNumber: number): Supplier<boolean> {
+  public static isLessThan(
+    getSmaller: NumberSupplier,
+    getBigger: NumberSupplier
+): Supplier<boolean> {
     return async () => {
-      const firstNumber = await getNumber();
-      return firstNumber < secondNumber;
+      const smaller = await numberOverload(getSmaller);
+      const bigger = await numberOverload(getBigger);
+      return smaller < bigger;
     };
   }
 
@@ -119,29 +133,31 @@ export class Predicates {
     return async () => !(await getValue());
   }
 
-  public static isTruthy(getBoolean: BooleanSupplier): Supplier<boolean> {
+  public static isTruthy(expression: BooleanSupplier): Supplier<boolean> {
     return async () => {
-      return booleanOverload(getBoolean);
+      return booleanOverload(expression);
     };
   }
 
-  public static isArrayIncludesSubArray(
-    getSourceArray: Supplier<Array<string>>,
-    subArray: Array<string>
+  public static isArrayIncludesSubArray<T>(
+    getSourceArray: ArraySupplier<T>,
+    subArray: ArraySupplier<T>
   ): Supplier<boolean> {
     return async (): Promise<boolean> => {
-      const sourceArray = await getSourceArray();
-      return subArray.every((item) => sourceArray.indexOf(item) !== -1);
+      const source = await arrayOverload(getSourceArray);
+      const sub = await arrayOverload(subArray);
+      return sub.every((item) => source.indexOf(item) !== -1);
     };
   }
 
-  public static isArrayNotIncludesSubArray(
-    getSourceArray: Supplier<Array<string>>,
-    subArray: Array<string>
+  public static isArrayNotIncludesSubArray<T>(
+    getSourceArray: ArraySupplier<T>,
+    subArray: ArraySupplier<T>
   ): Supplier<boolean> {
     return async (): Promise<boolean> => {
-      const sourceArray = await getSourceArray();
-      return subArray.every((item) => sourceArray.indexOf(item) === -1);
+      const source = await arrayOverload(getSourceArray);
+      const sub = await arrayOverload(subArray);
+      return sub.every((item) => source.indexOf(item) === -1);
     };
   }
 }
