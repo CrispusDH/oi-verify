@@ -140,7 +140,13 @@ export class Predicates {
   }
 
   public static isValueNotDefined<T>(getValue: Supplier<T>): Supplier<boolean> {
-    return async () => !(await getValue());
+    return async () => {
+      const value = await getValue();
+      if (!value) {
+        return true;
+      }
+      throw new Error(`Value "${value}" expected to be not defined`);
+    };
   }
 
   public static isTruthy(expression: BooleanSupplier): Supplier<boolean> {
