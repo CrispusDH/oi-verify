@@ -118,7 +118,10 @@ export class Predicates {
     return async () => {
       const bigger = await numberOverload(getBigger);
       const smaller = await numberOverload(getSmaller);
-      return bigger > smaller;
+      if (bigger > smaller) {
+        return true;
+      }
+      throw new Error(`Bigger number is less than smaller.\nBigger:  ${bigger}\nSmaller: ${smaller}`);
     };
   }
 
@@ -129,7 +132,10 @@ export class Predicates {
     return async () => {
       const smaller = await numberOverload(getSmaller);
       const bigger = await numberOverload(getBigger);
-      return smaller < bigger;
+      if (smaller < bigger) {
+        return true;
+      }
+      throw new Error(`Smaller number is bigger than bigger.\nSmaller:  ${smaller}\nBigger: ${bigger}`);
     };
   }
 
