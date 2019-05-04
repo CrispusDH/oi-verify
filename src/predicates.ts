@@ -162,7 +162,11 @@ export class Predicates {
     return async (): Promise<boolean> => {
       const source = await arrayOverload(getSourceArray);
       const sub = await arrayOverload(subArray);
-      return sub.every((item) => source.indexOf(item) !== -1);
+      if (sub.every((item) => source.indexOf(item) !== -1)) {
+        return true;
+      }
+      // tslint:disable max-line-length
+      throw new Error(`Array does not include sub array.\nArray:    ${JSON.stringify(source)}\nSubArray: ${JSON.stringify(sub)}`);
     };
   }
 
