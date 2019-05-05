@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-    - image: circleci/node:10.14.1
+    - image: circleci/node:10.15.3
 
     working_directory: ~/oi-verify
 
@@ -28,3 +28,8 @@ jobs:
         name: Run Linter
         command: |
           npm run lint
+
+    - run:
+        name: Run Test
+        command: |
+          npm run test
