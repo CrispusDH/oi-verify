@@ -38,13 +38,13 @@ export class Verify {
   }
 
   public static async numbersAreEqual(
-    first: NumberSupplier,
-    second: NumberSupplier,
+    expected: NumberSupplier,
+    actual: NumberSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualNumbers(first, second),
+      Predicates.areEqualNumbers(expected, actual),
       undefined,
       timeout,
       pollTimeout
@@ -52,13 +52,13 @@ export class Verify {
   }
 
   public static async stringsAreEqual(
-    first: StringSupplier,
-    second: StringSupplier,
+    expected: StringSupplier,
+    actual: StringSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualStrings(first, second),
+      Predicates.areEqualStrings(expected, actual),
       undefined,
       timeout,
       pollTimeout
@@ -66,13 +66,13 @@ export class Verify {
   }
 
   public static async stringsAreNotEqual(
-    first: StringSupplier,
-    second: StringSupplier,
+    expected: StringSupplier,
+    actual: StringSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areNotEqualStrings(first, second),
+      Predicates.areNotEqualStrings(expected, actual),
       undefined,
       timeout,
       pollTimeout
@@ -94,13 +94,13 @@ export class Verify {
   }
 
   public static async objectsAreEqual(
-    first: ObjectSupplier,
-    second: ObjectSupplier,
+    expected: ObjectSupplier,
+    actual: ObjectSupplier,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualObjects(first, second),
+      Predicates.areEqualObjects(expected, actual),
       undefined,
       timeout,
       pollTimeout

@@ -40,69 +40,69 @@ export class Predicates {
   }
 
   public static areEqualNumbers(
-    getFirst: NumberSupplier,
-    getSecond: NumberSupplier
+    getExpected: NumberSupplier,
+    getActual: NumberSupplier
   ): Supplier<boolean> {
     return async () => {
-      const first = await numberOverload(getFirst);
-      const second = await numberOverload(getSecond);
-      if (first === second) {
+      const expected = await numberOverload(getExpected);
+      const actual = await numberOverload(getActual);
+      if (expected === actual) {
         return true;
       }
-      throw new Error(`Numbers are not equal.\nFirst:  ${first}\nSecond: ${second}`);
+      throw new Error(`Numbers are not equal.\nExpected: ${expected}\nActual:   ${actual}`);
     };
   }
 
   public static areEqualStrings(
-    getFirst: StringSupplier,
-    getSecond: StringSupplier
+    getExpected: StringSupplier,
+    getActual: StringSupplier
   ): Supplier<boolean> {
     return async () => {
-      const first = await stringOverload(getFirst);
-      const second = await stringOverload(getSecond);
-      if (first === second) {
+      const expected = await stringOverload(getExpected);
+      const actual = await stringOverload(getActual);
+      if (expected === actual) {
         return true;
       }
-      throw new Error(`Strings are not equal.\nFirst:  "${first}"\nSecond: "${second}"`);
+      throw new Error(`Strings are not equal.\nExpected: "${expected}"\nActual:   "${actual}"`);
     };
   }
 
   public static areNotEqualStrings(
-    getFirst: StringSupplier,
-    getSecond: StringSupplier
+    getExpected: StringSupplier,
+    getActual: StringSupplier
   ): Supplier<boolean> {
     return async () => {
-      const first = await stringOverload(getFirst);
-      const second = await stringOverload(getSecond);
-      if (first !== second) {
+      const expected = await stringOverload(getExpected);
+      const actual = await stringOverload(getActual);
+      if (expected !== actual) {
         return true;
       }
-      throw new Error(`Strings are equal.\nFirst:  "${first}"\nSecond: "${second}"`);
+      throw new Error(`Strings are equal.\nExpected: "${expected}"\nActual:   "${actual}"`);
     };
   }
 
   public static areEqualObjects(
-    getFirst: ObjectSupplier,
-    getSecond: ObjectSupplier
+    getExpected: ObjectSupplier,
+    getActual: ObjectSupplier
   ): Supplier<boolean> {
     return async () => {
-      const first = await objectOverload(getFirst);
-      const second = await objectOverload(getSecond);
-      const firstProps = Object.getOwnPropertyNames(first);
-      const secondProps = Object.getOwnPropertyNames(second);
+      const expected = await objectOverload(getExpected);
+      const actual = await objectOverload(getActual);
+      const expectedProps = Object.getOwnPropertyNames(expected);
+      const actualProps = Object.getOwnPropertyNames(actual);
 
-      if (firstProps.length !== secondProps.length) {
+      if (expectedProps.length !== actualProps.length) {
         throw new Error(
-          `Objects are not equal.\nFirst:  ${JSON.stringify(first)}\nSecond: ${JSON.stringify(second)}`
+          `Objects are not equal.\nExpected: ${JSON.stringify(expected)}\nActual:   ${JSON.stringify(actual)}`
         );
       }
 
-      for (const i of firstProps) {
-        const propName = firstProps[i];
+      for (const i of expectedProps) {
+        const propName = expectedProps[i];
 
-        if (first[propName] !== second[propName]) {
+        if (expected[propName] !== actual[propName]) {
           throw new Error(
-            `Objects are not equal.\nFirst:  ${JSON.stringify(first)}\nSecond: ${JSON.stringify(second)}`
+            `Objects are not equal.\nExpected: ${JSON.stringify(expected)}\nActual:   ${JSON.stringify(actual)}`
           );
         }
       }
