@@ -17,12 +17,29 @@ test('error message', async (t) => {
       await Verify.numbersAreEqual(
         value,
         4,
+        undefined,
         600
       );
     }
   );
   t.truthy(error.message.includes(`${value}`), `Actual error message is:\n"${error.message}"`);
   t.truthy(error.message.includes('4'), `Actual error message is:\n"${error.message}"`);
+});
+
+test('custom error message', async (t) => {
+  const error = await t.throwsAsync(
+    async () => {
+      await Verify.numbersAreEqual(
+        value,
+        4,
+        'Custom error message',
+        600
+      );
+    }
+  );
+  t.truthy(error.message.includes(`${value}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('4'), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('Custom error message'), `Actual error message is:\n"${error.message}"`);
 });
 
 test('should pass after 800 ms', async (t) => {

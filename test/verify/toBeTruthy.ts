@@ -13,11 +13,27 @@ const foo = async (startTime) => {
 test('error message', async (t) => {
   const error = await t.throwsAsync(
     async () => {
-      await Verify.toBeTruthy(false, 500);
+      await Verify.toBeTruthy(false, undefined, 500);
     }
   );
   t.truthy(
     error.message.includes('Given condition produced negative result'),
+    `Actual error message is:\n"${error.message}"`
+  );
+});
+
+test('custom error message', async (t) => {
+  const error = await t.throwsAsync(
+    async () => {
+      await Verify.toBeTruthy(false, 'Custom error message', 500);
+    }
+  );
+  t.truthy(
+    error.message.includes('Given condition produced negative result'),
+    `Actual error message is:\n"${error.message}"`
+  );
+  t.truthy(
+    error.message.includes('Custom error message'),
     `Actual error message is:\n"${error.message}"`
   );
 });
@@ -27,6 +43,7 @@ test('should pass after 800 ms', async (t) => {
   await t.notThrowsAsync(
     async () => await Verify.toBeTruthy(
       () => foo(startTime),
+      undefined,
       1100
     )
   );

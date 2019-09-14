@@ -27,12 +27,29 @@ test('error message', async (t) => {
       await Verify.objectsAreEqual(
         object,
         different,
+        undefined,
         600
       );
     }
   );
   t.truthy(error.message.includes(`${JSON.stringify(object)}`), `Actual error message is:\n"${error.message}"`);
   t.truthy(error.message.includes(`${JSON.stringify(different)}`), `Actual error message is:\n"${error.message}"`);
+});
+
+test('cusrom error message', async (t) => {
+  const error = await t.throwsAsync(
+    async () => {
+      await Verify.objectsAreEqual(
+        object,
+        different,
+        'Custom error message',
+        600
+      );
+    }
+  );
+  t.truthy(error.message.includes(`${JSON.stringify(object)}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes(`${JSON.stringify(different)}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('Custom error message'), `Actual error message is:\n"${error.message}"`);
 });
 
 test('should pass after 800 ms', async (t) => {

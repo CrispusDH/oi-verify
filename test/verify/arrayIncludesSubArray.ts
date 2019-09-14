@@ -25,12 +25,29 @@ test('error message', async (t) => {
       await Verify.arrayIncludesSubArray(
         array,
         different,
+        undefined,
         600
       );
     }
   );
   t.truthy(error.message.includes(`${JSON.stringify(array)}`), `Actual error message is:\n"${error.message}"`);
   t.truthy(error.message.includes(`${JSON.stringify(different)}`), `Actual error message is:\n"${error.message}"`);
+});
+
+test('custom error message', async (t) => {
+  const error = await t.throwsAsync(
+    async () => {
+      await Verify.arrayIncludesSubArray(
+        array,
+        different,
+        'My custom message',
+        600
+      );
+    }
+  );
+  t.truthy(error.message.includes(`${JSON.stringify(array)}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes(`${JSON.stringify(different)}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('My custom message'), `Actual error message is:\n"${error.message}"`);
 });
 
 test('should pass after 800 ms', async (t) => {

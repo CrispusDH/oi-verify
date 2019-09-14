@@ -13,7 +13,8 @@ import {
 export class Predicates {
   public static isTextContain(
     getText: StringSupplier,
-    getSubString: StringSupplier
+    getSubString: StringSupplier,
+    error: string = ''
   ): Supplier<boolean> {
     return async () => {
       const text = await stringOverload(getText);
@@ -21,13 +22,14 @@ export class Predicates {
       if (text.includes(substring)) {
         return true;
       }
-      throw new Error(`Text does not contain substring.\nText:      "${text}"\nSubstring: "${substring}"`);
+      throw new Error(`${error}\nText does not contain substring.\nText:      "${text}"\nSubstring: "${substring}"`);
     };
   }
 
   public static isTextNotContain(
     getText: StringSupplier,
-    getSubstring: StringSupplier
+    getSubstring: StringSupplier,
+    error: string = ''
   ): Supplier<boolean> {
     return async () => {
       const text = await stringOverload(getText);
@@ -35,13 +37,14 @@ export class Predicates {
       if (!text.includes(substring)) {
         return true;
       }
-      throw new Error(`Text contains substring.\nText:      "${text}"\nSubstring: "${substring}"`);
+      throw new Error(`${error}\nText contains substring.\nText:      "${text}"\nSubstring: "${substring}"`);
     };
   }
 
   public static areEqualNumbers(
     getExpected: NumberSupplier,
-    getActual: NumberSupplier
+    getActual: NumberSupplier,
+    error: string = ''
   ): Supplier<boolean> {
     return async () => {
       const expected = await numberOverload(getExpected);
@@ -49,13 +52,14 @@ export class Predicates {
       if (expected === actual) {
         return true;
       }
-      throw new Error(`Numbers are not equal.\nExpected: ${expected}\nActual:   ${actual}`);
+      throw new Error(`${error}\nNumbers are not equal.\nExpected: ${expected}\nActual:   ${actual}`);
     };
   }
 
   public static areEqualStrings(
     getExpected: StringSupplier,
-    getActual: StringSupplier
+    getActual: StringSupplier,
+    error: string = ''
   ): Supplier<boolean> {
     return async () => {
       const expected = await stringOverload(getExpected);
@@ -63,13 +67,14 @@ export class Predicates {
       if (expected === actual) {
         return true;
       }
-      throw new Error(`Strings are not equal.\nExpected: "${expected}"\nActual:   "${actual}"`);
+      throw new Error(`${error}\nStrings are not equal.\nExpected: "${expected}"\nActual:   "${actual}"`);
     };
   }
 
   public static areNotEqualStrings(
     getExpected: StringSupplier,
-    getActual: StringSupplier
+    getActual: StringSupplier,
+    error: string = ''
   ): Supplier<boolean> {
     return async () => {
       const expected = await stringOverload(getExpected);
@@ -77,13 +82,14 @@ export class Predicates {
       if (expected !== actual) {
         return true;
       }
-      throw new Error(`Strings are equal.\nExpected: "${expected}"\nActual:   "${actual}"`);
+      throw new Error(`${error}\nStrings are equal.\nExpected: "${expected}"\nActual:   "${actual}"`);
     };
   }
 
   public static areEqualObjects(
     getExpected: ObjectSupplier,
-    getActual: ObjectSupplier
+    getActual: ObjectSupplier,
+    error: string = ''
   ): Supplier<boolean> {
     return async () => {
       const expected = await objectOverload(getExpected);
@@ -93,7 +99,7 @@ export class Predicates {
 
       if (expectedProps.length !== actualProps.length) {
         throw new Error(
-          `Objects are not equal.\nExpected: ${JSON.stringify(expected)}\nActual:   ${JSON.stringify(actual)}`
+          `${error}\nObjects are not equal.\nExpected: ${JSON.stringify(expected)}\nActual:   ${JSON.stringify(actual)}`
         );
       }
 
@@ -102,7 +108,7 @@ export class Predicates {
 
         if (expected[propName] !== actual[propName]) {
           throw new Error(
-            `Objects are not equal.\nExpected: ${JSON.stringify(expected)}\nActual:   ${JSON.stringify(actual)}`
+            `${error}\nObjects are not equal.\nExpected: ${JSON.stringify(expected)}\nActual:   ${JSON.stringify(actual)}`
           );
         }
       }
@@ -113,7 +119,8 @@ export class Predicates {
 
   public static isGreaterThan(
     getBigger: NumberSupplier,
-    getSmaller: NumberSupplier
+    getSmaller: NumberSupplier,
+    error: string = ''
   ): Supplier<boolean> {
     return async () => {
       const bigger = await numberOverload(getBigger);
@@ -121,13 +128,14 @@ export class Predicates {
       if (bigger > smaller) {
         return true;
       }
-      throw new Error(`Bigger number is less than smaller.\nBigger:  ${bigger}\nSmaller: ${smaller}`);
+      throw new Error(`${error}\nBigger number is less than smaller.\nBigger:  ${bigger}\nSmaller: ${smaller}`);
     };
   }
 
   public static isLessThan(
     getSmaller: NumberSupplier,
-    getBigger: NumberSupplier
+    getBigger: NumberSupplier,
+    error: string = ''
 ): Supplier<boolean> {
     return async () => {
       const smaller = await numberOverload(getSmaller);
@@ -135,29 +143,33 @@ export class Predicates {
       if (smaller < bigger) {
         return true;
       }
-      throw new Error(`Smaller number is bigger than bigger.\nSmaller:  ${smaller}\nBigger: ${bigger}`);
+      throw new Error(`${error}\nSmaller number is bigger than bigger.\nSmaller:  ${smaller}\nBigger: ${bigger}`);
     };
   }
 
-  public static isValueNotDefined<T>(getValue: Supplier<T>): Supplier<boolean> {
+  public static isValueNotDefined<T>(getValue: Supplier<T>, error: string = ''): Supplier<boolean> {
     return async () => {
       const value = await getValue();
       if (!value) {
         return true;
       }
-      throw new Error(`Value "${value}" expected to be not defined`);
+      throw new Error(`${error}\nValue "${value}" expected to be not defined`);
     };
   }
 
-  public static isTruthy(expression: BooleanSupplier): Supplier<boolean> {
+  public static isTruthy(expression: BooleanSupplier, error: string = ''): Supplier<boolean> {
     return async () => {
-      return booleanOverload(expression);
+      if (await booleanOverload(expression)) {
+        return true;
+      }
+      throw new Error(`${error}\nGiven condition produced negative result`);
     };
   }
 
   public static isArrayIncludesSubArray<T>(
     getSourceArray: ArraySupplier<T>,
-    subArray: ArraySupplier<T>
+    subArray: ArraySupplier<T>,
+    error: string = ''
   ): Supplier<boolean> {
     return async (): Promise<boolean> => {
       const source = await arrayOverload(getSourceArray);
@@ -166,13 +178,14 @@ export class Predicates {
         return true;
       }
       // tslint:disable max-line-length
-      throw new Error(`Array does not include sub array.\nArray:    ${JSON.stringify(source)}\nSubArray: ${JSON.stringify(sub)}`);
+      throw new Error(`${error}\nArray does not include sub array.\nArray:    ${JSON.stringify(source)}\nSubArray: ${JSON.stringify(sub)}`);
     };
   }
 
   public static isArrayNotIncludesSubArray<T>(
     getSourceArray: ArraySupplier<T>,
-    subArray: ArraySupplier<T>
+    subArray: ArraySupplier<T>,
+    error: string = ''
   ): Supplier<boolean> {
     return async (): Promise<boolean> => {
       const source = await arrayOverload(getSourceArray);
@@ -181,7 +194,7 @@ export class Predicates {
         return true;
       }
       // tslint:disable max-line-length
-      throw new Error(`Array includes sub array.\nArray:    ${JSON.stringify(source)}\nSubArray: ${JSON.stringify(sub)}`);
+      throw new Error(`${error}\nArray includes sub array.\nArray:    ${JSON.stringify(source)}\nSubArray: ${JSON.stringify(sub)}`);
     };
   }
 }

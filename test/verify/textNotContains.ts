@@ -19,12 +19,29 @@ test('error message', async (t) => {
       await Verify.textNotContains(
         text,
         substring,
+        undefined,
         600
       );
     }
   );
   t.truthy(error.message.includes(`${text}`), `Actual error message is:\n"${error.message}"`);
   t.truthy(error.message.includes(`${substring}`), `Actual error message is:\n"${error.message}"`);
+});
+
+test('custom error message', async (t) => {
+  const error = await t.throwsAsync(
+    async () => {
+      await Verify.textNotContains(
+        text,
+        substring,
+        'Custom error message',
+        600
+      );
+    }
+  );
+  t.truthy(error.message.includes(`${text}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes(`${substring}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('Custom error message'), `Actual error message is:\n"${error.message}"`);
 });
 
 test('should pass after 800 ms', async (t) => {

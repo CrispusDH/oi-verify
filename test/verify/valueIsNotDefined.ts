@@ -14,10 +14,20 @@ const foo = async (startTime) => {
 test('error message', async (t) => {
   const error = await t.throwsAsync(
     async () => {
-      await Verify.valueIsNotDefined<number>(() => Promise.resolve(value), 500);
+      await Verify.valueIsNotDefined<number>(() => Promise.resolve(value), undefined, 500);
     }
   );
   t.truthy(error.message.includes(`${value}`), `Actual error message is:\n"${error.message}"`);
+});
+
+test('custom error message', async (t) => {
+  const error = await t.throwsAsync(
+    async () => {
+      await Verify.valueIsNotDefined<number>(() => Promise.resolve(value), 'Custom error message', 500);
+    }
+  );
+  t.truthy(error.message.includes(`${value}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('Custom error message'), `Actual error message is:\n"${error.message}"`);
 });
 
 test('should pass after 800 ms', async (t) => {
@@ -25,6 +35,7 @@ test('should pass after 800 ms', async (t) => {
   await t.notThrowsAsync(
     async () => await Verify.valueIsNotDefined(
       () => foo(startTime),
+      undefined,
       1100
     )
   );

@@ -18,12 +18,29 @@ test('error message', async (t) => {
       await Verify.greaterThan(
         bigger,
         15,
+        undefined,
         600
       );
     }
   );
   t.truthy(error.message.includes(`${bigger}`), `Actual error message is:\n"${error.message}"`);
   t.truthy(error.message.includes('15'), `Actual error message is:\n"${error.message}"`);
+});
+
+test('custom error message', async (t) => {
+  const error = await t.throwsAsync(
+    async () => {
+      await Verify.greaterThan(
+        bigger,
+        15,
+        'My custom error message',
+        600
+      );
+    }
+  );
+  t.truthy(error.message.includes(`${bigger}`), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('15'), `Actual error message is:\n"${error.message}"`);
+  t.truthy(error.message.includes('My custom error message'), `Actual error message is:\n"${error.message}"`);
 });
 
 test('should pass after 800 ms', async (t) => {

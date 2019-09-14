@@ -12,12 +12,13 @@ import { waitFor } from './wait-for.wrapper';
 export class Verify {
   public static async toBeTruthy(
     expression: BooleanSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isTruthy(expression),
-      'Given condition produced negative result',
+      Predicates.isTruthy(expression, errorMessage),
+      undefined,
       timeout,
       pollTimeout
     );
@@ -26,11 +27,12 @@ export class Verify {
   public static async textContains(
     text: StringSupplier,
     substring: StringSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isTextContain(text, substring),
+      Predicates.isTextContain(text, substring, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -40,11 +42,12 @@ export class Verify {
   public static async numbersAreEqual(
     expected: NumberSupplier,
     actual: NumberSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualNumbers(expected, actual),
+      Predicates.areEqualNumbers(expected, actual, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -54,11 +57,12 @@ export class Verify {
   public static async stringsAreEqual(
     expected: StringSupplier,
     actual: StringSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualStrings(expected, actual),
+      Predicates.areEqualStrings(expected, actual, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -68,11 +72,12 @@ export class Verify {
   public static async stringsAreNotEqual(
     expected: StringSupplier,
     actual: StringSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areNotEqualStrings(expected, actual),
+      Predicates.areNotEqualStrings(expected, actual, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -82,11 +87,12 @@ export class Verify {
   public static async textNotContains(
     text: StringSupplier,
     substring: StringSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isTextNotContain(text, substring),
+      Predicates.isTextNotContain(text, substring, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -96,11 +102,12 @@ export class Verify {
   public static async objectsAreEqual(
     expected: ObjectSupplier,
     actual: ObjectSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.areEqualObjects(expected, actual),
+      Predicates.areEqualObjects(expected, actual, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -110,11 +117,12 @@ export class Verify {
   public static async greaterThan(
     bigger: NumberSupplier,
     smaller: NumberSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isGreaterThan(bigger, smaller),
+      Predicates.isGreaterThan(bigger, smaller, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -124,11 +132,12 @@ export class Verify {
   public static async lessThan(
     smaller: NumberSupplier,
     bigger: NumberSupplier,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isLessThan(smaller, bigger),
+      Predicates.isLessThan(smaller, bigger, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -137,11 +146,12 @@ export class Verify {
 
   public static async valueIsNotDefined<T>(
     value: Supplier<T>,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isValueNotDefined(value),
+      Predicates.isValueNotDefined(value, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -151,11 +161,12 @@ export class Verify {
   public static async arrayIncludesSubArray<T>(
     array: ArraySupplier<T>,
     subArray: ArraySupplier<T>,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isArrayIncludesSubArray(array, subArray),
+      Predicates.isArrayIncludesSubArray(array, subArray, errorMessage),
       undefined,
       timeout,
       pollTimeout
@@ -165,11 +176,12 @@ export class Verify {
   public static async arrayDoesNotIncludeSubArray<T>(
     array: ArraySupplier<T>,
     subArray: ArraySupplier<T>,
+    errorMessage?: string,
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
     await waitFor(
-      Predicates.isArrayNotIncludesSubArray(array, subArray),
+      Predicates.isArrayNotIncludesSubArray(array, subArray, errorMessage),
       undefined,
       timeout,
       pollTimeout
