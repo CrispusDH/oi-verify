@@ -21,6 +21,7 @@ export function sanitizeErrorMessage(commandError: Error, savedError: Error): Er
       return acc.includes(currentValue) ? acc : `${acc}\n${currentValue}`;
     }, '')
     .trim();
+  error.message = `${error.message}\nStack trace:\n${error.stack}`;
 
   return error;
 }
