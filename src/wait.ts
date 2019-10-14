@@ -1,3 +1,5 @@
+import { sanitizeErrorMessage } from './utils';
+
 export function wait(
   predicate: () => (boolean | Promise<boolean>),
   timeout: number = 0,
@@ -29,20 +31,17 @@ export function wait(
         if (!!value) {
           resolve(value);
         } else if (timeout && elapsed >= timeout) {
-          reject(
-            new Error(
-              `${message}\n`
-              + `Wait timed out after ${elapsed}ms`));
+          const error = new Error(`${message}\n`
+            + `Wait timed out after ${elapsed}ms`);
+          reject(sanitizeErrorMessage(error, new Error()));
         } else {
           setTimeout(pollCondition, pollTimeout);
         }
       } catch (error) {
         const elapsed = Date.now() - startTime;
+        const stackError = new Error(`Wait timed out after ${elapsed}ms`);
         if (timeout && elapsed >= timeout) {
-          reject(
-            new Error(
-              `${error}\n`
-              + `Wait timed out after ${elapsed}ms`));
+          reject(sanitizeErrorMessage(error, stackError));
         } else {
           setTimeout(pollCondition, pollTimeout);
         }

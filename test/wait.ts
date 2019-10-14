@@ -29,7 +29,7 @@ test('error message should be the last one', async (t) => {
       800
     )
   );
-  t.truthy(error.message.includes('Error: Elapsed time 500-1000 ms'), `Actual message is: "${error.message}"`);
+  t.truthy(error.message.includes('Elapsed time 500-1000 ms'), `Actual message is: "${error.message}"`);
 });
 
 test('should pass after 800 ms', async (t) => {
