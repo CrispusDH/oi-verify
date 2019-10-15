@@ -47,6 +47,7 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
+    const stackError = new Error();
     try {
       await waitFor(
         Predicates.areEqualNumbers(expected, actual, errorMessage),
@@ -55,7 +56,6 @@ export class Verify {
         pollTimeout
       );
     } catch (error) {
-      const stackError = new Error();
       throw sanitizeErrorMessage(error, stackError);
     }
   }
