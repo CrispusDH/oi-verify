@@ -8,6 +8,7 @@ import {
 } from './overload-helpers';
 import { Predicates } from './predicates';
 import { waitFor } from './wait-for.wrapper';
+import { sanitizeErrorMessage } from './utils';
 
 export class Verify {
   public static async toBeTruthy(
@@ -46,12 +47,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
-      Predicates.areEqualNumbers(expected, actual, errorMessage),
-      undefined,
-      timeout,
-      pollTimeout
-    );
+    try {
+      await waitFor(
+        Predicates.areEqualNumbers(expected, actual, errorMessage),
+        undefined,
+        timeout,
+        pollTimeout
+      );
+    } catch (error) {
+      const stackError = new Error();
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async stringsAreEqual(
