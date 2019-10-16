@@ -17,12 +17,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isTruthy(expression, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async textContains(
@@ -32,12 +37,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isTextContain(text, substring, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async numbersAreEqual(
@@ -67,12 +77,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.areEqualStrings(expected, actual, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async stringsAreNotEqual(
@@ -82,12 +97,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.areNotEqualStrings(expected, actual, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async textNotContains(
@@ -97,12 +117,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isTextNotContain(text, substring, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async objectsAreEqual(
@@ -112,12 +137,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.areEqualObjects(expected, actual, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async greaterThan(
@@ -127,12 +157,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isGreaterThan(bigger, smaller, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async lessThan(
@@ -142,12 +177,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isLessThan(smaller, bigger, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async valueIsNotDefined<T>(
@@ -156,12 +196,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isValueNotDefined(value, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async arrayIncludesSubArray<T>(
@@ -171,12 +216,17 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isArrayIncludesSubArray(array, subArray, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 
   public static async arrayDoesNotIncludeSubArray<T>(
@@ -186,11 +236,16 @@ export class Verify {
     timeout?: number,
     pollTimeout?: number
   ): Promise<void> {
-    await waitFor(
+    const stackError = new Error();
+    try {
+      await waitFor(
       Predicates.isArrayNotIncludesSubArray(array, subArray, errorMessage),
       undefined,
       timeout,
       pollTimeout
     );
+    } catch (error) {
+      throw sanitizeErrorMessage(error, stackError);
+    }
   }
 }
