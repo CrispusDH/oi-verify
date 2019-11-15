@@ -22,12 +22,14 @@ export const wait = async (
 
   const startTime = Date.now();
   const pollCondition = async () => {
+    let entry = false;
     const elapsed = Date.now() - startTime;
     try {
       const value = await evaluateCondition();
       if (!!value) {
         return value;
       } else if (timeout && elapsed >= timeout) {
+        entry = true;
         throw new Error(
           `${message}\n`
           + `Wait timed out after ${elapsed}ms`);
@@ -37,9 +39,13 @@ export const wait = async (
       }
     } catch (error) {
       if (timeout && elapsed >= timeout) {
-        throw new Error(
-          `${error}\n`
-          + `Wait timed out after ${elapsed}ms`);
+        if (entry === false) {
+          throw new Error(
+            `${error}\n`
+            + `Wait timed out after ${elapsed}ms`);
+        } else {
+          throw error;
+        }
       } else {
         await pause(pollTimeout);
         await pollCondition();
