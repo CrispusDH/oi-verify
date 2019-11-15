@@ -1,4 +1,4 @@
-import { pause, sanitizeErrorMessage } from './utils';
+import { pause } from './utils';
 
 export const wait = async (
   predicate: () => (boolean | Promise<boolean>),
@@ -13,17 +13,15 @@ export const wait = async (
   }
 
   const evaluateCondition = async (): Promise<boolean> => {
-    const stackError = new Error();
     try {
       return await predicate();
     } catch (error) {
-      throw sanitizeErrorMessage(error, stackError);
+      throw error;
     }
   };
 
   const startTime = Date.now();
   const pollCondition = async () => {
-    const stackError = new Error();
     let entry = false;
     const elapsed = Date.now() - startTime;
     try {
@@ -32,10 +30,9 @@ export const wait = async (
         return value;
       } else if (timeout && elapsed >= timeout) {
         entry = true;
-        const error = new Error(
+        throw new Error(
           `${message}\n`
           + `Wait timed out after ${elapsed}ms`);
-        throw sanitizeErrorMessage(error, stackError);
       } else {
         await pause(pollTimeout);
         await pollCondition();
