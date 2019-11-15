@@ -1,6 +1,6 @@
 {
   "name": "oi-verify",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "description": "Smart verifier for UI based projects, that wait for a predicate to become true",
   "repository": {
     "type": "git",
