@@ -1,10 +1,12 @@
-import { pause } from './utils';
+import { pause, sanitizeErrorMessage } from './utils';
 
 export const wait = async (
   predicate: () => (boolean | Promise<boolean>),
   timeout: number = 0,
   message: string = '',
   pollTimeout: number = 0): Promise<void> => {
+  const stackError = new Error();
+
   if (timeout < 0) {
     throw new Error(`timeout must be a number >= 0: ${timeout}`);
   }
@@ -44,7 +46,7 @@ export const wait = async (
             `${error}\n`
             + `Wait timed out after ${elapsed}ms`);
         } else {
-          throw error;
+          throw sanitizeErrorMessage(error, stackError);
         }
       } else {
         await pause(pollTimeout);
