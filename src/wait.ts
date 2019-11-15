@@ -5,8 +5,6 @@ export const wait = async (
   timeout: number = 0,
   message: string = '',
   pollTimeout: number = 0): Promise<void> => {
-  const stackError = new Error();
-
   if (timeout < 0) {
     throw new Error(`timeout must be a number >= 0: ${timeout}`);
   }
@@ -15,15 +13,17 @@ export const wait = async (
   }
 
   const evaluateCondition = async (): Promise<boolean> => {
+    const stackError = new Error();
     try {
       return await predicate();
     } catch (error) {
-      throw error;
+      throw sanitizeErrorMessage(error, stackError);
     }
   };
 
   const startTime = Date.now();
   const pollCondition = async () => {
+    const stackError = new Error();
     let entry = false;
     const elapsed = Date.now() - startTime;
     try {
@@ -32,9 +32,10 @@ export const wait = async (
         return value;
       } else if (timeout && elapsed >= timeout) {
         entry = true;
-        throw new Error(
+        const error = new Error(
           `${message}\n`
           + `Wait timed out after ${elapsed}ms`);
+        throw sanitizeErrorMessage(error, stackError);
       } else {
         await pause(pollTimeout);
         await pollCondition();
@@ -46,7 +47,7 @@ export const wait = async (
             `${error}\n`
             + `Wait timed out after ${elapsed}ms`);
         } else {
-          throw sanitizeErrorMessage(error, stackError);
+          throw error;
         }
       } else {
         await pause(pollTimeout);
