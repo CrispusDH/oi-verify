@@ -1,8 +1,10 @@
-export function wait(
+import { pause } from './utils';
+
+export const wait = async (
   predicate: () => (boolean | Promise<boolean>),
   timeout: number = 0,
   message: string = '',
-  pollTimeout: number = 0): Promise<any> {
+  pollTimeout: number = 0): Promise<void> => {
   if (timeout < 0) {
     throw new Error(`timeout must be a number >= 0: ${timeout}`);
   }
@@ -10,44 +12,39 @@ export function wait(
     throw new Error(`pollTimeout must be a number >= 0: ${pollTimeout}`);
   }
 
-  function evaluateCondition() {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(predicate());
-      } catch (ex) {
-        reject(ex);
-      }
-    });
-  }
+  const evaluateCondition = async (): Promise<boolean> => {
+    try {
+      return await predicate();
+    } catch (error) {
+      throw error;
+    }
+  };
 
-  return new Promise(async (resolve, reject) => {
-    const startTime = Date.now();
-    const pollCondition = async () => {
-      try {
-        const value = await evaluateCondition();
-        const elapsed = Date.now() - startTime;
-        if (!!value) {
-          resolve(value);
-        } else if (timeout && elapsed >= timeout) {
-          reject(
-            new Error(
-              `${message}\n`
-              + `Wait timed out after ${elapsed}ms`));
-        } else {
-          setTimeout(pollCondition, pollTimeout);
-        }
-      } catch (error) {
-        const elapsed = Date.now() - startTime;
-        if (timeout && elapsed >= timeout) {
-          reject(
-            new Error(
-              `${error}\n`
-              + `Wait timed out after ${elapsed}ms`));
-        } else {
-          setTimeout(pollCondition, pollTimeout);
-        }
+  const startTime = Date.now();
+  const pollCondition = async () => {
+    const elapsed = Date.now() - startTime;
+    try {
+      const value = await evaluateCondition();
+      if (!!value) {
+        return value;
+      } else if (timeout && elapsed >= timeout) {
+        throw new Error(
+          `${message}\n`
+          + `Wait timed out after ${elapsed}ms`);
+      } else {
+        await pause(pollTimeout);
+        await pollCondition();
       }
-    };
-    await pollCondition();
-  });
-}
+    } catch (error) {
+      if (timeout && elapsed >= timeout) {
+        throw new Error(
+          `${error}\n`
+          + `Wait timed out after ${elapsed}ms`);
+      } else {
+        await pause(pollTimeout);
+        await pollCondition();
+      }
+    }
+  };
+  await pollCondition();
+};

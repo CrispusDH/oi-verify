@@ -25,6 +25,10 @@ export function sanitizeErrorMessage(commandError: Error, savedError: Error): Er
   return error;
 }
 
+export const pause = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 /**
  * filter stack array
  * @param {string} stackRow
