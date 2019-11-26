@@ -41,7 +41,8 @@ export function wait(
         if (timeout && elapsed >= timeout) {
           reject(
             new Error(
-              `${error}\n`
+              `${message}\n`
+              + `${error}\n`
               + `Wait timed out after ${elapsed}ms`));
         } else {
           setTimeout(pollCondition, pollTimeout);

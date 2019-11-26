@@ -1,6 +1,6 @@
 {
   "name": "oi-verify",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Smart verifier for UI based projects, that wait for a predicate to become true",
   "repository": {
     "type": "git",
@@ -11,13 +11,13 @@
   "main": "dist/index.js",
   "typings": "dist/declarations/index.d.ts",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "devDependencies": {
-    "tslint": "5.20.0",
+    "tslint": "5.20.1",
     "tslint-eslint-rules": "5.4.0",
-    "typescript": "3.6.3",
-    "ava": "2.3.0"
+    "typescript": "3.7.2",
+    "ava": "2.4.0"
   },
   "scripts": {
     "prepublishOnly": "npm run clean && npm run lint && tsc",
